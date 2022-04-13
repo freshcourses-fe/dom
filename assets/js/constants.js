@@ -12,5 +12,5 @@ const SUPPORTED_SOCIAL_NETWORKS = new Map([
       alt: 'twitter link for',
     },
   ],
-  ['www.facebook.com', ],
+  ['www.facebook.com', ['fa-brands', 'fa-facebook']],
 ]);

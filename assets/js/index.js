@@ -4,26 +4,23 @@ const cardsContainer = document.getElementById('root');
 const loadingDiv = document.querySelector('#loading');
 const errorDiv = document.querySelector('#error');
 
-loadingDiv.textContent = 'LOADING ...';
-fetch('./data.json')
-  .then(
-    (response) => response.json(),
-    (err) => {
-      console.log('error loading data');
-    }
-  )
-  .then((users) => {
+async function getUsers(url) {
+  try {
+    loadingDiv.textContent = 'LOADING ...';
+    const response = await fetch(url);
+    const users = await response.json();
+
     const cards = users.map((user) => generateUserCard(user));
 
     cardsContainer.append(...cards);
-  })
-  .catch((err) => {
-    errorDiv.textContent = 'ERROR';
-    console.log('error happened', err);
-  })
-  .finally(() => {
+  } catch (err) {
+    errorDiv.textContent = 'error';
+  } finally {
     loadingDiv.textContent = '';
-  });
+  }
+}
+
+getUsers('./data.json');
 
 function generateUserCard(userObj) {
   const fullName =

@@ -1,10 +1,29 @@
 'use strict';
 
 const cardsContainer = document.getElementById('root');
+const loadingDiv = document.querySelector('#loading');
+const errorDiv = document.querySelector('#error');
 
-const cards = responseData.map((userDataObj) => generateUserCard(userDataObj));
+loadingDiv.textContent = 'LOADING ...';
+fetch('./data.json')
+  .then(
+    (response) => response.json(),
+    (err) => {
+      console.log('error loading data');
+    }
+  )
+  .then((users) => {
+    const cards = users.map((user) => generateUserCard(user));
 
-cardsContainer.append(...cards);
+    cardsContainer.append(...cards);
+  })
+  .catch((err) => {
+    errorDiv.textContent = 'ERROR';
+    console.log('error happened', err);
+  })
+  .finally(() => {
+    loadingDiv.textContent = '';
+  });
 
 function generateUserCard(userObj) {
   const fullName =
